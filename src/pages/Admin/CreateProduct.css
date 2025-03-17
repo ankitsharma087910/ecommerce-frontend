@@ -1,0 +1,138 @@
+.createprod-container{
+    display: flex;
+}
+.createprod-left{
+    width: 40%;
+}
+.createprod-right{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.form-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form-container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9) ;
+    background-image: linear-gradient(to right, #d7d2cc 0%, #304352 100%);
+  }
+  
+  .form-container h2 {
+    font-size: 24px;
+  }
+  
+  .form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-container label {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .form-container input[type="text"],
+  .form-container textarea,
+  .form-container input[type="number"],
+  .form-container select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .form-container input[type="file"] {
+    display: none;
+  }
+  .form-container select:focus{
+   box-shadow: none !important;
+  }
+  
+  .form-container button {
+    margin-top: 10px;
+    padding: 12px 20px;
+    background-color: black;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .form-container button:hover {
+    background-color: rgb(13, 181, 181);
+    color: black;
+    font-weight: 500;
+  }
+  
+  .form-container .upload-photo {
+    margin-bottom: 20px;
+  }
+  
+  .form-container img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .upload-photo{
+    border: 2px  dashed black;
+    padding: 5px;
+    width: 350px;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  @media (max-width:720px) {
+     .form-container input[type="text"],
+  .form-container textarea,
+  .form-container input[type="number"],
+  .form-container select {
+    padding: 5px;
+  }
+  .form-container{
+    margin-top: 1em;
+    width: 250px;
+    padding: 0px;
+    margin-bottom: 40px;
+  }
+  .form-container button{
+    margin-bottom: 12px;
+  }
+  .upload-photo{
+    padding: 0;
+    width: 150px;
+  }
+  }
+
+  @media (max-width:595px) {
+    .createprod-left{
+        width: 50%;
+    }
+  }
+
+   @media (max-width:500px) {
+     .createprod-container{
+        flex-direction: column;
+    }
+    .createprod-left{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .createprod-right{
+        width: 100%;
+    }
+  }

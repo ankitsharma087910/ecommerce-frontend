@@ -1,0 +1,39 @@
+
+.user-menu {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    position: sticky;
+    left: 2rem;
+  }
+  
+  .menu-link {
+    text-decoration: none;
+    color: #333; 
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  
+  .menu-link:hover {
+    background-color: black;
+    color: white;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+  }
+  
+  .active-link {
+    background-color: #007bff; 
+    color: #fff;
+  }
+  @media (max-width:575px) {
+    .user-menu h1{
+        margin-left: 1em;
+    }
+  }
+
+  

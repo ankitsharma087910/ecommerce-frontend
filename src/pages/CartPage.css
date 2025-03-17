@@ -1,0 +1,112 @@
+.cart-page {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  background-image: linear-gradient(120deg, #abc9e2 0%, #8fd3f4 100%);
+  background-size: cover;
+}
+  
+  .products1 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .products {
+    margin-top: 2em;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+  }
+
+  .cart-summary {
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid transparent; 
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px !important;
+    
+  }
+  .cart-sum{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .span-cart{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+  
+  .address {
+    margin-bottom: 20px;
+  }
+  
+  .address button {
+    background-color: rgb(13, 181, 181);
+    color: black !important;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .address button:hover {
+    background: rgba(0, 5, 12, 0.789);
+    color: white !important;
+    font-weight: 500;
+  }
+  
+  .cartBtn {
+    background-color: rgb(238, 23, 48);
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .cartBtn:hover {
+    scale: 0.9;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .cart-line{
+    border: none;
+  height: 5px;
+  width: 100%;
+  background-color: #0e0d0d; 
+  margin: 20px 0; 
+  }
+
+     @media (max-width:675px) {
+    .cart-page {
+        padding: 20px;
+    }
+    .products {
+        margin-top: 1em;
+    grid-template-columns: auto auto;
+  }
+
+  .cart-sum{
+    display: flex;
+    flex-direction: column;
+  }
+   }
+   @media (max-width:575px) {
+    .products{
+        margin-top: 1em;
+        grid-template-columns: auto;
+    }
+   }
+  

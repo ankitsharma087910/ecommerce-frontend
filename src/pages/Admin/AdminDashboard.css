@@ -1,0 +1,15 @@
+.admin-con{
+    display: flex;
+    height: 100vh;
+}
+.A-left{
+    width: 40%;
+
+}
+.A-right{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 3em;
+}

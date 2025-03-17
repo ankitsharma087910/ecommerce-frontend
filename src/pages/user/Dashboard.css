@@ -1,0 +1,35 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+.Dleft {
+  width: 40%;
+}
+.Dright {
+  width: 60%;
+  height: 100%;
+}
+@media (max-width: 575px) {
+  .Dleft {
+    width: 30%;
+    text-align: center;
+  }
+  .Dright {
+    width: 70%;
+    text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  .Dleft {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .Dright {
+    width: 100%;
+  }
+}

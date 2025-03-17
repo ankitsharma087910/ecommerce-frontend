@@ -1,0 +1,127 @@
+.updprod-container{
+    display: flex;
+}
+
+.updprod-left{
+    width: 30%;
+    position: sticky;
+    left: 1em;
+    top: 1em;
+    height: 100%;
+}
+.updprod-right{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.upd-container {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.upd-container form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; 
+  margin: 0 -10px;
+}
+
+.upd-container form > p,
+.upd-container form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.upd-container form .prod-img label {
+  cursor: pointer;
+  display: block;
+}
+
+.upd-container form .prod-img input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.upd-container form input[type="text"],
+.upd-container form textarea,
+.upd-container form input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 100%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.upd-container form .setflec {
+  display: flex;
+  align-items: center; 
+  margin-bottom: 10px;
+}
+
+.upd-container form .setflec p {
+  margin-right: 10px;
+}
+
+.upd-container form button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 5px; 
+  background-color: #333;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.upd-container form button:hover {
+  background-color: #222;
+}
+.upd-container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.setflec{
+    display: flex;
+    flex-direction: column;
+}
+.upd-btns{
+    display: flex;
+    margin-top: 1em;
+}
+@media (max-width:850px) {
+    .updprod-left{
+        width: 50%;
+    }
+    .updprod-right{
+        width: 50%;
+    }
+}
+@media (max-width:500px) {
+    .updprod-container{
+        flex-direction: column;
+    }
+    .updprod-left{
+        width: 100%;
+        position: relative;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .updprod-right{
+        width: 100%;
+    }
+
+}

@@ -1,0 +1,60 @@
+.aduser-container{
+    display: flex;
+}
+.aduser-left{
+    width: 30%;
+    position: sticky;
+    left: 1em;
+    top: 1em;
+    height: 100%;
+}
+.aduser-right{
+    width: 70%;
+}
+
+
+
+
+.user-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  box-sizing: border-box; 
+  margin-top: 20px;
+  margin-left: 40px;
+}
+.user-name {
+  font-weight: bold;
+}
+.user-email {
+  color: #666;
+}
+.user-list{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+@media (max-width:970px) {
+    .user-list{
+        grid-template-columns: auto;
+    }
+    .aduser-left{
+        width: 40%;
+    }
+    .aduser-right{
+        width: 60%;
+    }
+}
+@media (max-width:575px) {
+    .aduser-left{
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .aduser-container{
+        flex-direction: column;
+    }
+}

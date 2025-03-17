@@ -1,0 +1,20 @@
+
+.admin-menu {
+    padding: 10px;
+    height: 100%;
+    width: 40%;
+  }
+  
+ .Admenu{
+  display: flex;
+  flex-direction: column;
+ }
+ .Admenu a{
+  text-decoration: none;
+ }
+ .Admenu a:hover{
+  transition: ease-out .6ms;
+  background-color: black;
+  color: white;
+ }
+  

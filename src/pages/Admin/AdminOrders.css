@@ -1,0 +1,91 @@
+.order-container {
+  display: flex;
+  background-image: linear-gradient(120deg, #44b8c5 0%, #8fd3f4 100%);
+}
+.O-left {
+  width: 30%;
+  position: sticky;
+  left: 1em;
+  top:6em;
+  height: 100%;
+}
+.O-right {
+  width: 70%;
+  margin-top: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+table {
+  width: 100%;
+  background: white;
+}
+
+table th,
+table td {
+  border-right: 2px solid black;
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+table th {
+  background: black;
+  font-weight: 800;
+  color: white;
+}
+table tbody tr {
+  transition: 0.3s ease-in-out all;
+}
+table tbody td {
+  border-top: 4px solid rgb(2, 2, 2);
+}
+@media (max-width: 930px) {
+    table th,
+  table td {
+    font-size: medium;
+  }
+  .O-left{
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .O-left{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  table th,
+  table td {
+    font-size: medium;
+  }
+}
+@media (max-width: 500px) {
+  table th,
+  table td {
+    font-size: small;
+  }
+}
+
+@media (max-width: 425px) {
+  table th,
+  table td {
+    font-size: 10px;
+  }
+    .O-right {
+    width: 80%;
+  }
+}
+@media (max-width: 360px) {
+  table th,
+  table td {
+    font-size: 5px;
+  }
+    .O-right {
+    width: 100%;
+  }
+}

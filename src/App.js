@@ -26,7 +26,7 @@ import AdminOrders from './pages/Admin/AdminOrders';
 
 
 function App() {
-  axios.defaults.baseURL = "https://ecommerce-backend-1-fze9.onrender.com/";
+  axios.defaults.baseURL = "https://ecommerce-backend-3-idr2.onrender.com/";
   return (
     <>
       <Routes>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import Layout from "../Layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -6,7 +6,7 @@ import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../components/context/cart";
-import { ThreeDots } from "react-loader-spinner"; // Import the loader component
+import { ThreeDots } from "react-loader-spinner";
 import "./Home.css";
 
 const Home = () => {
@@ -19,6 +19,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
+  const observer = useRef();
 
   // Get products
   const getAllProducts = async () => {
@@ -33,8 +34,6 @@ const Home = () => {
       toast.error("Error in fetching products");
     }
   };
-  
- 
 
   // Get all categories
   const getAllCategories = async () => {
@@ -60,7 +59,6 @@ const Home = () => {
     setChecked(all);
   };
 
-
   // Get filtered products
   const filterProduct = React.useCallback(async () => {
     try {
@@ -84,23 +82,34 @@ const Home = () => {
     }
   };
 
-  // Load more
-  const loadMore = async () => {
+  // Load more products for infinite scrolling
+  const loadMore = useCallback(async () => {
+    if (loading || products.length >= total) return;
     try {
       setLoading(true);
       const { data } = await axios.get(`/api/v1/products/product-list/${page}`);
       setLoading(false);
-      setProducts([...products, ...data?.products]);
+      setProducts((prevProducts) => [...prevProducts, ...data?.products]);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  };
+  }, [page, loading, products, total]);
 
-  useEffect(() => {
-    if (page === 1) return;
-    loadMore();
-  }, [page]);
+  // Intersection Observer to detect when to load more
+  const lastProductElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && products.length < total) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, products.length, total]
+  );
 
   useEffect(() => {
     getAllCategories();
@@ -112,6 +121,9 @@ const Home = () => {
     if (checked.length || radio.length) filterProduct();
   }, [checked, radio, filterProduct]);
 
+  useEffect(() => {
+    if (page > 1) loadMore();
+  }, [page, loadMore]);
 
   return (
     <Layout title={"All products - Best Offers"}>
@@ -157,10 +169,7 @@ const Home = () => {
           <h1 style={{ textAlign: "center" }}>All Products</h1>
           {/* Loader for initial product fetch */}
           {loading && products.length === 0 && (
-            <div
-              className="loader"
-              style={{ textAlign: "center", padding: "20px" ,display:'flex', justifyContent: 'center', alignItems: 'center',width:"100%",height:"80vh"}}
-            >
+            <div className="loader">
               <ThreeDots
                 height="80"
                 width="80"
@@ -173,73 +182,67 @@ const Home = () => {
           )}
           <div className="pro">
             {products &&
-              products?.map((prod) => (
-                <div className="pro-cd" key={prod._id}>
-                  <div className="pro-img">
-                    <img
-                      src={`https://ecommerce-backend-1-fze9.onrender.com/upload/${prod.photo}`}
-                      width="100px"
-                      height="100px"
-                      alt={prod.name}
-                    />
-                  </div>
-                  <div className="pro-det">
-                    <h5 className="pro-n">{prod.name}</h5>
-                    <p className="pro-desc">
-                      {prod.description.substring(0, 30)}...
-                    </p>
-                    <p className="pro-price">${prod.price}</p>
-                    <div className="flexbtns">
-                      <button
-                        onClick={() => navigate(`/product/${prod._id}`)}
-                        className="more-details"
-                      >
-                        More Details
-                      </button>
-                      <button
-                        onClick={() => {
-                          setCart([...cart, prod]);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify([...cart, prod])
-                          );
-                          toast.success("Item added to Cart");
-                        }}
-                        className="add-to-cart"
-                      >
-                        Add to Cart
-                      </button>
+              products?.map((prod, index) => {
+                const isLastProduct = products.length === index + 1;
+                return (
+                  <div
+                    ref={isLastProduct ? lastProductElementRef : null}
+                    className="pro-cd"
+                    key={prod._id}
+                  >
+                    <div className="pro-img">
+                      <img
+                        src={`https://ecommerce-backend-1-fze9.onrender.com/upload/${prod.photo}`}
+                        width="100px"
+                        height="100px"
+                        alt={prod.name}
+                      />
+                    </div>
+                    <div className="pro-det">
+                      <h5 className="pro-n">{prod.name}</h5>
+                      <p className="pro-desc">
+                        {prod.description.substring(0, 30)}...
+                      </p>
+                      <p className="pro-price">${prod.price}</p>
+                      <div className="flexbtns">
+                        <button
+                          onClick={() => navigate(`/product/${prod._id}`)}
+                          className="more-details"
+                        >
+                          More Details
+                        </button>
+                        <button
+                          onClick={() => {
+                            setCart([...cart, prod]);
+                            localStorage.setItem(
+                              "cart",
+                              JSON.stringify([...cart, prod])
+                            );
+                            toast.success("Item added to Cart");
+                          }}
+                          className="add-to-cart"
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
-          <div className="load">
-            {Array.isArray(products) && products.length < total && (
-              <div style={{ textAlign: "center", padding: "20px" }}>
-                <button
-                  className="load-more"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPage(page + 1);
-                  }}
-                >
-                  {loading ? (
-                    <ThreeDots
-                      height="30"
-                      width="30"
-                      radius="9"
-                      color="#4fa94d"
-                      ariaLabel="three-dots-loading"
-                      visible={true}
-                    />
-                  ) : (
-                    "Load more"
-                  )}
-                </button>
-              </div>
-            )}
-          </div>
+          {/* Loader for infinite scrolling */}
+          {loading && products.length > 0 && (
+            <div className="load">
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#4fa94d"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+            </div>
+          )}
         </div>
       </div>
     </Layout>

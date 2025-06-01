@@ -91,6 +91,7 @@ const ProductDetails = () => {
               </div>
               <div className="Submit-Button">
                 <button
+                  style={{ backgroundColor: "#4fa94d", color: "#fff" }}
                   onClick={() => {
                     setCart([...cart, product]);
                     localStorage.setItem(
@@ -143,6 +144,7 @@ const ProductDetails = () => {
                     <p className="price">${prod.price}</p>
                     <div className="prod-details-btn">
                       <button
+                        style={{ backgroundColor: "#4fa94d", color: "#fff" }}
                         onClick={() => {
                           setCart([...cart, prod]);
                           localStorage.setItem(

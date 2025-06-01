@@ -1,11 +1,10 @@
-// ProductDetails.js
-
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../components/context/cart";
 import { toast } from "react-toastify";
+import { ThreeDots } from "react-loader-spinner"; // Import the loader component
 import "./ProductDetails.css";
 
 const ProductDetails = () => {
@@ -14,28 +13,37 @@ const ProductDetails = () => {
   const [relatedProduct, setRelatedProduct] = useState([]);
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
-  // get product
+  const [loadingProduct, setLoadingProduct] = useState(false); // Loader state for product
+  const [loadingRelated, setLoadingRelated] = useState(false); // Loader state for related products
+
+  // Get product
   const getProduct = async () => {
     try {
+      setLoadingProduct(true);
       const { data } = await axios.get(
         `/api/v1/products/get-product/${params.id}`
       );
       setProduct(data?.product);
+      setLoadingProduct(false);
       getSimilarProduct(data?.product?._id, data?.product?.category._id);
     } catch (error) {
       console.log(error);
+      setLoadingProduct(false);
     }
   };
 
-  // get similar product
+  // Get similar products
   const getSimilarProduct = async (pid, cid) => {
     try {
+      setLoadingRelated(true);
       const { data } = await axios.get(
         `/api/v1/products/related-product/${pid}/${cid}`
       );
+      setLoadingRelated(false);
       setRelatedProduct(data?.products);
     } catch (error) {
       console.log(error);
+      setLoadingRelated(false);
     }
   };
 
@@ -46,83 +54,118 @@ const ProductDetails = () => {
   return (
     <Layout>
       <div className="proddet-container">
-        <div className="product-details-more">
-          <div className="product-image">
-            <img
-              src={`https://ecommerce-backend-1-fze9.onrender.com/upload/${product.photo}`}
-              alt={product.name}
-              height={"100px"}
-              width={"100px"}
+        {/* Loader for product details */}
+        {loadingProduct ? (
+          <div
+            className="loader"
+            style={{ textAlign: "center", padding: "20px" }}
+          >
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#4fa94d"
+              ariaLabel="three-dots-loading"
+              visible={true}
             />
           </div>
-          <div className="products-info">
-            <h1>{product.name}</h1>
-            <p className="description">{product.description}</p>
-            <div className="justflex">
-              <p className="price">Price: ${product.price}</p>
-              <p className="category">Category: {product.category?.name}</p>
-              <p className="shipping">
-                Shipping: {product.shipping ? "Available" : "Not Available"}
-              </p>
+        ) : (
+          <div className="product-details-more">
+            <div className="product-image">
+              <img
+                src={`https://ecommerce-backend-1-fze9.onrender.com/upload/${product.photo}`}
+                alt={product.name}
+                height={"100px"}
+                width={"100px"}
+              />
             </div>
-            <div className="Submit-Button">
-              <button
-                onClick={() => {
-                  setCart([...cart, product]);
-                  localStorage.setItem(
-                    "cart",
-                    JSON.stringify([...cart, product])
-                  );
-                  toast.success("Item added to Cart");
-                }}
-              >
-                Add to Cart
-              </button>
+            <div className="products-info">
+              <h1>{product.name}</h1>
+              <p className="description">{product.description}</p>
+              <div className="justflex">
+                <p className="price">Price: ${product.price}</p>
+                <p className="category">Category: {product.category?.name}</p>
+                <p className="shipping">
+                  Shipping: {product.shipping ? "Available" : "Not Available"}
+                </p>
+              </div>
+              <div className="Submit-Button">
+                <button
+                  onClick={() => {
+                    setCart([...cart, product]);
+                    localStorage.setItem(
+                      "cart",
+                      JSON.stringify([...cart, product])
+                    );
+                    toast.success("Item added to Cart");
+                  }}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="similar-products">
           <h2>Similar Products</h2>
-          {relatedProduct?.length < 1 && <p>No similar products found</p>}
-          <div className="related-products-container">
-            {relatedProduct.map((prod) => (
-              <div className="related-product" key={prod._id}>
-                <img
-                  src={`https://ecommerce-backend-1-fze9.onrender.com/upload/${prod.photo}`}
-                  alt={prod.name}
-                  height={"100px"}
-                  width={"100px"}
-                />
-                <div className="related-product-info">
-                  <h3>{prod?.name}</h3>
-                  <p className="description">
-                    {prod?.description.substring(0, 30)}...
-                  </p>
-                  <p className="price">${prod.price}</p>
-                  <div className="prod-details-btn">
-                    <button
-                      onClick={() => {
-                        setCart([...cart, prod]);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify([...cart, prod])
-                        );
-                        toast.success("Item added to Cart");
-                      }}
-                    >
-                      Add to Cart
-                    </button>
-                    <button
-                      style={{ marginLeft: "4px" }}
-                      onClick={() => navigate(`/product/${prod._id}`)}
-                    >
-                      More Details
-                    </button>
+          {/* Loader for related products */}
+          {loadingRelated ? (
+            <div
+              className="loader"
+              style={{ textAlign: "center", padding: "20px" }}
+            >
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#4fa94d"
+                ariaLabel="three-dots-loading"
+                visible={true}
+              />
+            </div>
+          ) : relatedProduct?.length < 1 ? (
+            <p>No similar products found</p>
+          ) : (
+            <div className="related-products-container">
+              {relatedProduct.map((prod) => (
+                <div className="related-product" key={prod._id}>
+                  <img
+                    src={`https://ecommerce-backend-1-fze9.onrender.com/upload/${prod.photo}`}
+                    alt={prod.name}
+                    height={"100px"}
+                    width={"100px"}
+                  />
+                  <div className="related-product-info">
+                    <h3>{prod?.name}</h3>
+                    <p className="description">
+                      {prod?.description.substring(0, 30)}...
+                    </p>
+                    <p className="price">${prod.price}</p>
+                    <div className="prod-details-btn">
+                      <button
+                        onClick={() => {
+                          setCart([...cart, prod]);
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify([...cart, prod])
+                          );
+                          toast.success("Item added to Cart");
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        style={{ marginLeft: "4px" }}
+                        onClick={() => navigate(`/product/${prod._id}`)}
+                      >
+                        More Details
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Layout>

@@ -4,7 +4,7 @@
   justify-content: center;
   height: 80px;
   background-color: rgb(7, 36, 82);
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

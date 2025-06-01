@@ -14,6 +14,7 @@ const Register = () => {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [answer, setAnswer] = useState("");
+    const [loading, setLoading] = useState(false);
 
 
     const navigate = useNavigate();
@@ -22,19 +23,23 @@ const Register = () => {
         e.preventDefault();
        try{
         console.log(name, email, password, phone, address, answer);
+        setLoading(true);
         const res = await axios.post("/api/v1/auth/register",{
             name,email,password,phone,address,answer
         });
         if(res.data.success){
             toast.success(res.data.message);
+            setLoading(false);
             setTimeout(()=>{
             navigate("/login");
             },2000);
         }else{
             toast.error(res.data.message);
+            setLoading(false);
         }
        }catch(err){
         console.log(err);
+        setLoading(false);
         toast.error("Something went wrong!");
        }
     }
@@ -42,12 +47,11 @@ const Register = () => {
     
   return (
     <Layout title={"Register - Ecommerce-app"}>
-      <div className="centered-container"  >
-        <div className="curved-box" style={{marginBottom:"50px"}}>
-        <div className="reghead">
-
-          <h1 className="reg">Register Page</h1>
-        </div>
+      <div className="centered-container">
+        <div className="curved-box" style={{ marginBottom: "50px" }}>
+          <div className="reghead">
+            <h1 className="reg">Register Page</h1>
+          </div>
 
           <form onSubmit={handleSubmit} className="Regform" autoComplete="off">
             <input
@@ -59,6 +63,7 @@ const Register = () => {
               placeholder="Name"
               required
               className="RegName"
+              disabled={loading}
             />
 
             <input
@@ -69,6 +74,7 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="E-mail"
               required
+              disabled={loading}
               className="RegMail"
             />
 
@@ -81,6 +87,7 @@ const Register = () => {
               required
               className="RegPass"
               placeholder="Password"
+              disabled={loading}
             />
 
             <input
@@ -92,6 +99,7 @@ const Register = () => {
               required
               className="RegTel"
               placeholder="Mobile Number"
+              disabled={loading}
             />
 
             <input
@@ -103,6 +111,7 @@ const Register = () => {
               required
               className="RegAdd"
               placeholder="Address"
+              disabled={loading}
             />
 
             <input
@@ -114,9 +123,10 @@ const Register = () => {
               placeholder="What is your favourite sports?"
               required
               className="RegAns"
+              disabled={loading}
             />
-            <button type="submit" className="SubmitBtn">
-              Register
+            <button type="submit" className="SubmitBtn" disabled={loading}>
+             {loading ? "Registering..." :  "Register"}
             </button>
           </form>
         </div>

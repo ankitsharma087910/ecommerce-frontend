@@ -1,12 +1,11 @@
-import React from 'react'
-import Header from './Header'
-import Footer from './Footer'
+import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
 import { Helmet } from "react-helmet";
-  import { ToastContainer } from "react-toastify";
-  import "react-toastify/dist/ReactToastify.css";
- 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Layout = ({children,title,description,keywords,author}) => {
+const Layout = ({ children, title, description, keywords, author }) => {
   return (
     <div>
       <Helmet>
@@ -22,13 +21,13 @@ const Layout = ({children,title,description,keywords,author}) => {
       <Footer />
     </div>
   );
-}
+};
 
-Layout.defaultProps= {
-  title:"Ecommerce App",
-  description: 'mern stack project',
-  keywords:"mern react node mongodb",
-  author:"ankit sharma"
-}
+Layout.defaultProps = {
+  title: "Ecommerce App",
+  description: "mern stack project",
+  keywords: "mern react node mongodb",
+  author: "ankit sharma",
+};
 
-export default Layout
+export default Layout;

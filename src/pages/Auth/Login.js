@@ -10,6 +10,7 @@ const Login = () => {
 
      const [email, setEmail] = useState("");
      const [password, setPassword] = useState("");
+     const [loading, setLoading] = useState(false);
 
      const {auth,setAuth}= useAuth();
 
@@ -20,16 +21,26 @@ const Login = () => {
      // form function
      const handleSubmit = async (e) => {
        e.preventDefault();
+       let res;
+       if (!email || !password) {
+         toast.error("Please fill all fields");
+         return;
+       }
        try {
-         const res = await axios.post(
+        setLoading(true);
+          res = await axios.post(
            `/api/v1/auth/login`,
            {
              email,
              password,
            }
          );
+        
+         console.log(res,'res');
          if (res.data.success) {
            toast.success(res.data.message);
+        setLoading(false);
+
            setTimeout(()=>{
             setAuth({
                 user:res.data.user,
@@ -39,11 +50,16 @@ const Login = () => {
            navigate(location.state || "/");
            },1500);
          } else {
-           toast.error(res.data.message);
+          console.log(res,'res')
+        setLoading(false);
+
+           toast.error(res?.message);
          }
        } catch (err) {
-         console.log(err);
-         toast.error("Something went wrong!");
+         console.log(err,'akres');
+        setLoading(false);
+
+         toast.error( err?.response?.data?.message ?? "Something went wrong!");
        }
      };
   return (
@@ -66,6 +82,7 @@ const Login = () => {
           required
           placeholder='E-mail'
           className='loginp'
+          disabled={loading}
         />
       
         <input
@@ -77,11 +94,14 @@ const Login = () => {
           required
           placeholder='Password'
           className='logpass'
+          disabled={loading}
         />
         <div className='loginbtns'>
-        <button type="button" onClick={()=> navigate('/forgot-password')} className='ForgotPasswordBtn '>Forgot Password</button>
+        <button type="button" disabled={loading} onClick={()=> navigate('/forgot-password')} className='ForgotPasswordBtn '>Forgot Password</button>
 
-        <button type="submit" className='SubmitBtn'>Login</button>
+        <button type="submit" className='SubmitBtn' disabled={loading}>
+         {loading ? "Submitting..." : "Login"} 
+          </button>
         </div>
       </form>
       </div>

@@ -28,6 +28,7 @@
     font-size: medium;
 }
 .filterBtn:hover{
+    cursor: pointer;
     background-color: rgb(25, 37, 145);
     color: white;
     border-radius: 5px;
